@@ -1,12 +1,12 @@
 <template>
   <div class="home flex-grow-1 d-flex">
     <!-- go back to here -->
-    <div class="col-md-8 px-0">
-      <div class="row flex-column mx-3 mt-4 align-items-center">
+    <div class="col-md-8 pl-4">
+      <div class="row flex-column mx-3 mt-1">
         <Post v-for="post in state.posts" :key="post.id" :post="post" />
       </div>
     </div>
-    <div class="col-md-4 px-0">
+    <div class="col-sm-4 px-0">
       <Ad v-for="ad in state.ads" :key="ad.tall" :ad="ad" />
     </div>
   </div>

@@ -3,8 +3,8 @@
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
         <div class="nav-logo text-white d-flex align-items-center">
-          <i class="fab fa-pagelines fa-3x mr-2"></i>
-          <p>BRANCHES</p>
+          <i class="fas fa-water fa-3x mr-2"></i>
+          <p>WAVES</p>
         </div>
       </div>
     </router-link>
@@ -21,24 +21,27 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
+        <li class="nav-item d-md-none">
           <router-link :to="{ name: 'Home' }" class="nav-link">
             Home
           </router-link>
         </li>
-        <li class="nav-item">
-          <router-link :to="{ name: 'About' }" class="nav-link">
-            About
-          </router-link>
-        </li>
       </ul>
       <div class="input-group search-bar">
-        <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
-        <div class="input-group-append">
-          <button class="btn btn-primary" type="button">
-            Love it
-          </button>
-        </div>
+        <form class="d-flex" action="" @submit.prevent="search(state.query)">
+          <input v-model="state.query"
+                 type="text"
+                 class="form-control shadow"
+                 placeholder=""
+                 aria-label=""
+                 aria-describedby="basic-addon1"
+          >
+          <div class="input-group-append">
+            <button class="btn btn-outline-success search-btn shadow" type="submit">
+              Search
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </nav>
@@ -47,9 +50,25 @@
 <script>
 // import { AuthService } from '../services/AuthService'
 // import { AppState } from '../AppState'
-// import { computed, reactive } from 'vue'
+import { reactive } from 'vue'
+import { postsService } from '../services/PostsService'
+import { profileService } from '../services/ProfileService'
 export default {
-  name: 'Navbar'
+  name: 'Navbar',
+  setup() {
+    const state = reactive({
+      query: ''
+    })
+
+    return {
+      state,
+      async search(query) {
+        await postsService.search(query)
+        await profileService.search(query)
+        state.query = ''
+      }
+    }
+  }
 }
 </script>
 
@@ -57,7 +76,10 @@ export default {
 @import "../assets/scss/_variables.scss";
 
 nav {
-background-image: linear-gradient(to bottom, #137547 0%, #17975cb7 100%);
+background: #0F2027;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
 
 .nav-logo {
@@ -78,6 +100,11 @@ a:hover {
   color: #fff;
 }
 .nav-item .nav-link.router-link-exact-active{
+  color: #fff;
+}
+
+.search-btn {
+  background-color: $dark;
   color: #fff;
 }
 
